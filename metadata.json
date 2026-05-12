@@ -1,0 +1,6 @@
+{
+  "name": "Base 2048",
+  "description": "A sophisticated dark theme 2048 game with Base Mainnet integrations using Wagmi, Viem, and SIWE.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

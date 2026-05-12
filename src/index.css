@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base-blue: #0052ff;
+  --color-base-dark: #0a0b0d;
+  --color-grid-bg: #1c1f26;
+  --color-grid-cell: #2a2e37;
+  
+  /* Tile Colors */
+  --color-tile-base: #2a2e37;
+  --color-tile-2: #3a3f4b;
+  --color-tile-4: #4a5160;
+  --color-tile-8: #f2b179;
+  --color-tile-16: #f59563;
+  --color-tile-32: #f67c5f;
+  --color-tile-64: #f65e3b;
+  --color-tile-128: #edcf72;
+  --color-tile-256: #edcc61;
+  --color-tile-primary: #0052ff;
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  :root {
+    --background: #0a0b0d;
+    --foreground: #ffffff;
+    --border: #2a2e37;
+    --card: #1c1f26;
+  }
+  
+  html, body {
+    @apply antialiased bg-[var(--background)] text-[var(--foreground)] touch-manipulation overflow-hidden overscroll-none;
+    -webkit-tap-highlight-color: transparent;
+    /* touch-manipulation and overflow-hidden prevent mobile browser pull-to-refresh and zooming when swiping */
+  }
+
+  /* Custom Glow utility */
+  .glow-base {
+    box-shadow: 0 0 20px rgba(0, 82, 255, 0.4);
+  }
+}
