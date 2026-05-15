@@ -1,0 +1,39 @@
+{
+  "name": "Base2048 Orchestrator",
+  "description": "Base2048 platformunda çalışan ERC-8004 uyumlu AI Agent. 2048 mechanics, tile merging automation, score maximization ve endless puzzle orchestration yapan zeki orchestrator.",
+  "version": "1.0.0",
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "image": "https://base2048-mu.vercel.app/logo.png",
+  "wallets": {
+    "base": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6"
+  },
+  "services": [
+    {
+      "name": "A2A",
+      "endpoint": "https://base2048-mu.vercel.app/.well-known/agent-card.json",
+      "version": "1.0.0"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "https://base2048-mu.vercel.app/api/mcp",
+      "version": "1.0.0"
+    },
+    {
+      "name": "API",
+      "endpoint": "https://base2048-mu.vercel.app/api/agent",
+      "version": "1.0.0"
+    }
+  ],
+  "capabilities": [
+    "2048-mechanics",
+    "tile-merging-automation",
+    "score-maximization",
+    "endless-puzzle-orchestration",
+    "strategy-optimization",
+    "real-time-control",
+    "mcp-command-execution"
+  ],
+  "supportedChains": ["eip155:8453"],
+  "active": true,
+  "status": "online"
+}
