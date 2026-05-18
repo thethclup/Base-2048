@@ -1,25 +1,19 @@
-# Base2048
+# Base2048 Orchestrator
 
-A visually stunning, mobile-first Web3 iteration of the classic 2048 game built on Base Mainnet. Merge tiles, reach 2048 (and beyond), and submit your highest score securely on-chain.
+A visually stunning, mobile-first Web3 iteration of the classic 2048 game built on Base Mainnet. Merge tiles, reach 2048 (and beyond), and submit your highest score securely on-chain. This project serves as a sophisticated AI agent orchestration environment.
 
-## Features
+## Overview
 
-- **Classic 2048 Mechanics:** Swipe to slide tiles and merge identical numbers.
-- **Mobile First Design:** Fully responsive layout with smooth touch controls.
-- **Web3 Integrations:**
-  - Connect your wallet to play.
-  - Submit transactions on the Base Mainnet.
-  - Hybrid Leaderboard and Achievements (Powered by SIWE).
-- **ERC-8004 AI Agent:** Includes configuration for "Base2048 Orchestrator", a smart agent to automate and optimize tile merging strategies.
-- **Premium Aesthetics:** Dark/neon aesthetic with satisfying animations and dynamic glowing tiles.
+Base2048 Orchestrator is an ERC-8004 compatible AI Agent. It leverages 2048 game mechanics for tile merging automation, score maximization, and endless puzzle orchestration. 
 
 ## Tech Stack
 
 - **Frontend:** React, Vite, Tailwind CSS, Framer Motion
-- **Web3:** Wagmi, Viem (Base Mainnet)
-- **Backend / MCP Server:** Express (providing Agent and MCP API endpoints)
+- **Web3 Ecosystem:** Wagmi, Viem (Base Mainnet)
+- **API Architecture:** Next.js App Router API Routes (`app/api/` logic integrated for Vercel deployments) + Express (`server.ts`)
+- **Capabilities:** 2048-mechanics, tile-merging-automation, score-maximization, endless-puzzle-orchestration, strategy-optimization, real-time-control, mcp-command-execution
 
-## Setup and Development
+## Getting Started Locally
 
 1. **Install Dependencies:**
    ```bash
@@ -36,6 +30,14 @@ A visually stunning, mobile-first Web3 iteration of the classic 2048 game built 
    npm run build
    ```
 
-## Agent Integration
+## Agent Registration & MCP Integration
 
-Base2048 acts as a playground and controller for decentralized AI orchestration. Check the agent's definition at `.well-known/agent-card.json` and interact with the AI logic through the API endpoints such as `/api/mcp` and `/api/agent`.
+This project is an ERC-8004 compliant agent ecosystem. The agent capabilities can be accessed and discovered natively.
+
+- **Agent Metadata Card**: Available at `/.well-known/agent-card.json`. This provides A2A discovery parameters.
+- **Agent Identity Endpoint**: Can be accessed at `/api/agent`. Provides base identity, status, and network environment for the orchestrated agent.
+- **MCP Endpoint**: The Model Context Protocol (MCP) server runs at `/api/mcp`. It exposes automation tools used by the AI Orchestrator to control state operations efficiently.
+
+## Disclaimer
+
+This is a technical demonstration. Treat all interactions safely on-chain.
