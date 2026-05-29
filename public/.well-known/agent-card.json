@@ -7,6 +7,23 @@
   "wallets": {
     "base": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6"
   },
+  "skills": [
+    {
+      "id": "2048-mechanics",
+      "name": "2048 Mechanics",
+      "description": "Expert in 2048 game mechanics and tile merging strategy."
+    },
+    {
+      "id": "score-maximization",
+      "name": "Score Maximization",
+      "description": "Advanced algorithms for optimizing scores and moves."
+    },
+    {
+      "id": "endless-puzzle-orchestration",
+      "name": "Endless Puzzle Orchestration",
+      "description": "Orchestrates endless puzzle states and analytics."
+    }
+  ],
   "services": [
     {
       "name": "A2A",
