@@ -40,9 +40,9 @@ async function startServer() {
   app.post("/api/mcp", (req, res) => {
     try {
       const body = req.body || {};
-      const { action, command, params, task } = body;
-
-      const cmd = (action || command || task || "").toLowerCase();
+      
+      const isJsonRpc = body.jsonrpc === "2.0" || 'id' in body;
+      const cmd = (body.method || body.action || body.command || body.task || "").toLowerCase();
 
       let result: any = {};
 
@@ -56,12 +56,33 @@ async function startServer() {
           };
           break;
 
+        case "tools/list":
+          result = {
+            tools: [
+              { name: "get_race_status", description: "Get current race status", inputSchema: { type: "object", properties: {} } },
+              { name: "start_race", description: "Start the race", inputSchema: { type: "object", properties: {} } },
+              { name: "get_leaderboard", description: "Get leaderboard", inputSchema: { type: "object", properties: {} } },
+              { name: "optimize_speed", description: "Optimize speed", inputSchema: { type: "object", properties: {} } },
+              { name: "get_track_info", description: "Get track info", inputSchema: { type: "object", properties: {} } }
+            ]
+          };
+          break;
+
+        case "prompts/list":
+          result = { prompts: [] };
+          break;
+
+        case "resources/list":
+          result = { resources: [] };
+          break;
+
+        case "tools/call":
         case "execute":
           result = {
             success: true,
-            executed: params || command,
-            executedAt: new Date().toISOString(),
-            message: "Move executed successfully"
+            content: [
+              { type: "text", text: "Move/Tool executed successfully" }
+            ]
           };
           break;
 
@@ -82,12 +103,20 @@ async function startServer() {
           };
       }
 
-      res.json({
-        status: "success",
-        agent: "Base2048 Orchestrator",
-        response: result,
-        receivedAt: new Date().toISOString()
-      });
+      if (isJsonRpc || body.method) {
+        res.json({
+          jsonrpc: "2.0",
+          id: body.id || 1,
+          result: result
+        });
+      } else {
+        res.json({
+          status: "success",
+          agent: "Base2048 Orchestrator",
+          response: result,
+          receivedAt: new Date().toISOString()
+        });
+      }
 
     } catch (error) {
       res.status(400).json({

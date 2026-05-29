@@ -1,4 +1,13 @@
 export default async function handler(req, res) {
+  // Add CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method === 'GET') {
     return res.status(200).json({
       protocol: "MCP",
@@ -13,10 +22,10 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-      const { action, command, params, task, method } = body || {};
-
-      const cmd = (method || action || command || task || "").toLowerCase();
+      const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+      
+      const isJsonRpc = body.jsonrpc === "2.0" || 'id' in body;
+      const cmd = (body.method || body.action || body.command || body.task || "").toLowerCase();
 
       let result = {};
 
@@ -54,9 +63,9 @@ export default async function handler(req, res) {
         case "execute":
           result = {
             success: true,
-            executed: params || command,
-            executedAt: new Date().toISOString(),
-            message: "Move/Tool executed successfully"
+            content: [
+              { type: "text", text: "Move/Tool executed successfully" }
+            ]
           };
           break;
 
@@ -77,10 +86,13 @@ export default async function handler(req, res) {
           };
       }
 
-      // Add CORS Headers if needed
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      if (isJsonRpc || body.method) {
+        return res.status(200).json({
+          jsonrpc: "2.0",
+          id: body.id || 1,
+          result: result
+        });
+      }
 
       return res.status(200).json({
         status: "success",
@@ -94,14 +106,6 @@ export default async function handler(req, res) {
         message: "Failed to process command"
       });
     }
-  }
-
-  // Handle OPTIONS request for CORS
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(200).end();
   }
 
   return res.status(405).json({ message: "Method Not Allowed" });

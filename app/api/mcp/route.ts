@@ -15,9 +15,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { action, command, params, task, method } = body;
-
-    const cmd = (method || action || command || task || "").toLowerCase();
+    
+    // Check if this is a standard JSON-RPC MCP request
+    const isJsonRpc = body.jsonrpc === "2.0" || 'id' in body;
+    const cmd = (body.method || body.action || body.command || body.task || "").toLowerCase();
 
     let result: any = {};
 
@@ -55,9 +56,9 @@ export async function POST(req: Request) {
       case "execute":
         result = {
           success: true,
-          executed: params || command,
-          executedAt: new Date().toISOString(),
-          message: "Move/Tool executed successfully"
+          content: [
+            { type: "text", text: "Move/Tool executed successfully" }
+          ]
         };
         break;
 
@@ -78,18 +79,28 @@ export async function POST(req: Request) {
         };
     }
 
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    };
+
+    // Return standard MCP JSON-RPC format
+    if (isJsonRpc || body.method) {
+      return NextResponse.json({
+        jsonrpc: "2.0",
+        id: body.id || 1,
+        result: result
+      }, { headers });
+    }
+
+    // Fallback for custom clients
     return NextResponse.json({
       status: "success",
       agent: "Base2048 Orchestrator",
       response: result,
       receivedAt: new Date().toISOString()
-    }, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      }
-    });
+    }, { headers });
 
   } catch (error) {
     return NextResponse.json({
@@ -97,4 +108,15 @@ export async function POST(req: Request) {
       message: "Failed to process command"
     }, { status: 400 });
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
+  });
 }

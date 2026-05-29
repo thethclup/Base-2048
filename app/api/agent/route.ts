@@ -17,6 +17,12 @@ export async function GET() {
     version: "1.0.0",
     type: "ERC-8004 Agent",
     lastUpdated: new Date().toISOString()
+  }, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
   });
 }
 
@@ -27,6 +33,12 @@ export async function POST(req: Request) {
       status: "success",
       message: "Agent endpoint active",
       received: body
+    }, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
     });
   } catch (err) {
     return NextResponse.json({
@@ -34,4 +46,15 @@ export async function POST(req: Request) {
       message: "Invalid request"
     }, { status: 400 });
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
+  });
 }
