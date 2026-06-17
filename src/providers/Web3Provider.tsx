@@ -1,13 +1,18 @@
 // Web3 Provider setup for Wagmi and Viem
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
+// @ts-ignore
+import { injected, baseAccount } from 'wagmi/connectors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
 // Setup basic Wagmi config on Base
-// Using default injected connectors for MetaMask/Coinbase Wallet
 const config = createConfig({
   chains: [base],
+  connectors: [
+    injected(),
+    baseAccount ? baseAccount({ appName: 'Base 2048' }) : undefined
+  ].filter(Boolean) as any,
   transports: {
     [base.id]: http(),
   },
